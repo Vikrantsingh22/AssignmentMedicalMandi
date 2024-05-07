@@ -48,3 +48,11 @@ Start the application using the following command:
 
 ```bash
 npm start
+
+```
+
+### API DOCUMENTATION
+https://documenter.getpostman.com/view/26805733/2sA3JJ9NwQ
+
+
+
