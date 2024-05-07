@@ -3,6 +3,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const register = (req, res) => {
+  if (!req.body.username || !req.body.email || !req.body.password) {
+    return res
+      .status(400)
+      .json({ message: "username, email and password are mandatory" });
+  }
   const query = "SELECT * FROM users WHERE email = ? OR username =?";
   DB.query(query, [req.body.email, req.body.username], (err, result) => {
     if (err) return res.status(500).json({ message: err });
@@ -22,6 +27,11 @@ const register = (req, res) => {
 };
 
 const login = (req, res) => {
+  if (!req.body.email || !req.body.password) {
+    return res
+      .status(400)
+      .json({ message: "email and password are mandatory" });
+  }
   const query = "SELECT * FROM users WHERE email = ?";
   DB.query(query, [req.body.email], (err, result) => {
     if (err) return res.status(500).json({ message: err });
@@ -37,7 +47,9 @@ const login = (req, res) => {
     if (!isPasswordValid)
       return res.status(400).json({ message: "Invalid password" });
     const { username, email } = user;
-    const token = jwt.sign({ id: user.ID }, "secret", { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.ID }, process.env.SECRET_KEY, {
+      expiresIn: "1h",
+    });
     res
       .cookie("token", token, { httpOnly: true })
       .status(200)

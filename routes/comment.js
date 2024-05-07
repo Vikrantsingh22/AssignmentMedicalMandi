@@ -5,11 +5,12 @@ const {
   updateCommentByID,
   deleteCommentByID,
 } = require("../contoller/comment");
+const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
 
 router.post("/list", getComments);
-router.post("/create", createComment);
-router.post("/update", updateCommentByID);
-router.post("/delete", deleteCommentByID);
+router.post("/create", authMiddleware, createComment);
+router.post("/update", authMiddleware, updateCommentByID);
+router.post("/delete", authMiddleware, deleteCommentByID);
 
 module.exports = router;

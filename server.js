@@ -5,6 +5,7 @@ const blogRouter = require("./routes/Blog");
 const userRouter = require("./routes/user");
 const commentRouter = require("./routes/comment");
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
 // dbConnect();
 app.use(express.json());
 app.use(cookieParser());
